@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Ella · IRONMAN 70.3 Plan</title>
+<title>Ella · IRONMAN 70.3 Musselman Plan</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -52,15 +52,15 @@ dialog::backdrop{background:#0008}.dlg{padding:16px}.dlg h3{margin:0 0 8px}.dlg 
 .wkgrid{display:grid;gap:10px}@media(min-width:900px){.wkgrid{grid-template-columns:1fr 1fr}}
 .mile{display:flex;flex-wrap:wrap;gap:8px}.mile .card{flex:1;min-width:150px;margin:0;text-align:center}.mile b{display:block;font-size:22px;color:var(--acc)}
 </style></head><body>
-<header><h1>🏁 Ella's IRONMAN 70.3 Oregon Plan</h1><div class="cd" id="cd"></div>
-<nav><button data-v="week" class="on">Today / Week</button><button data-v="month">Month</button><button data-v="plan">Plan</button></nav></header>
+<header><h1>🏁 Ella's IRONMAN 70.3 Musselman Plan</h1><div class="cd" id="cd"></div>
+<nav><button data-v="week" class="on">Today / Week</button><button data-v="month">Month</button><button data-v="plan">Plan</button><button data-v="fuel">Fuel</button><button data-v="recovery">Recovery</button></nav></header>
 <main id="main"></main>
 <dialog id="dlg"><div class="dlg" id="dlgc"></div></dialog>
 <script src="data.js"></script>
 <script>
 const P=window.PLAN,$=s=>document.querySelector(s);
 const SPORTS=[['swim','Swim'],['bike','Bike'],['run','Run'],['str','Strength'],['brick','Brick'],['mob','Mobility'],['rest','Rest'],['race','Race']];
-const RACE='2027-07-18',HALF='2026-11-08',TRI='2027-06-13';
+const RACE='2027-07-11',HALF='2026-11-08',TRI='2027-06-13';
 function nyToday(){return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}
 const TODAY=nyToday();
 const D=s=>{const[y,m,d]=s.split('-').map(Number);return new Date(Date.UTC(y,m-1,d))};
@@ -75,9 +75,9 @@ const SESS=d=>(byDay[d]||[]).filter(e=>!['phase','recovery','test'].includes(e.k
 function weekOf(d){const n=Math.floor(diff(P.D0,d)/7)+1;return P.weeks.find(w=>w.n===n)}
 function hm(m){return m?`${Math.floor(m/60)}:${String(m%60).padStart(2,'0')}`:''}
 function tm12(t){if(!t)return'';let[h,m]=t.split(':').map(Number);return`${(h+11)%12+1}:${String(m).padStart(2,'0')}${h<12?'a':'p'}`}
-function special(d){return d===RACE?'🏆 RACE DAY':d===HALF?'🏃 Half marathon':d===TRI?'🏁 Practice tri':''}
+function special(d){return d===RACE?'🏆 RACE DAY · 70.3 Musselman':d===HALF?'🏃 Boston Half':d===TRI?'🏁 Practice tri':''}
 // countdown
-(function(){const n=diff(TODAY,RACE),h=diff(TODAY,HALF);$('#cd').innerHTML=n>0?`<b>${n}</b> days to race day (Sun Jul 18, 2027)`+(h>0?` · <b>${h}</b> to the half`:''):n===0?'<b>RACE DAY! 🏆</b>':'Race complete 🎉'})();
+(function(){const n=diff(TODAY,RACE),h=diff(TODAY,HALF);$('#cd').innerHTML=n>0?`<b>${n}</b> days to Musselman 70.3 (Sun Jul 11, 2027)`+(h>0?` · <b>${h}</b> to the Boston Half (Nov 8)`:''):n===0?'<b>RACE DAY! 🏆</b>':'Race complete 🎉'})();
 const legend=()=>`<div class="legend">${SPORTS.map(([k,l])=>`<span class="k-${k}"><i class="dot"></i>${l}</span>`).join('')}<span><i class="dot" style="background:#90caf9"></i>Recovery wk</span><span><i class="dot" style="background:#ffb74d"></i>Test wk</span></div>`;
 function weekTags(w){if(!w)return'';return`<span class="tag ph">${esc(w.phase)}</span>${w.rec?'<span class="tag rec">Recovery</span>':''}${w.test?'<span class="tag tst">Test week</span>':''}`}
 function sessHTML(e){return`<div class="sess k-${e.k}" data-i="${e.i}"><div class="tm">${tm12(e.t)}${e.m?'<br>'+hm(e.m):''}</div><div><div>${esc(e.s)}</div>${e.loc?`<div class="loc">📍 ${esc(e.loc)}</div>`:''}</div></div>`}
@@ -105,6 +105,9 @@ function renderMonth(){
   $('#pm').onclick=()=>{mo=m?[y,m-1]:[y-1,11];renderMonth()};$('#nm').onclick=()=>{mo=m<11?[y,m+1]:[y+1,0];renderMonth()};
   document.querySelectorAll('.cell').forEach(c=>c.onclick=()=>showDay(c.dataset.d));
 }
+function secs(list,intro,open){$('#main').innerHTML='<div class="plan">'+intro+list.map((s,i)=>`<details${i<open?' open':''}><summary><h2 style="display:inline">${esc(s.title)}</h2></summary>${s.html.replace(/<table>/g,'<div class="tw"><table>').replace(/<\/table>/g,'</table></div>')}</details>`).join('')+'</div>'}
+function renderFuel(){secs(P.fuel,'<div class="card">Everything is <b>strictly gluten-free</b>. Targets are per kg of body weight; the exact daily numbers and the 7-day menus are in your Fuel Plan PDF.</div>',2)}
+function renderRecovery(){secs(P.recovery,'<div class="card">Check every morning before training. The <b>worst</b> signal decides the day: 🟢 train as planned · 🟡 cap at Z2 and move intervals · 🔴 easy 30-45\' Z1 or rest.</div>',2)}
 function renderPlan(){$('#main').innerHTML='<div class="plan">'+P.plan.map((s,i)=>`<details${i<1?' open':''}><summary><h2 style="display:inline">${esc(s.title)}</h2></summary>${s.html.replace(/<table>/g,'<div class="tw"><table>').replace(/<\/table>/g,'</table></div>')}</details>`).join('')+'</div>'}
 function showDay(d){const w=weekOf(d),all=byDay[d]||[];
   let h=`<button class="btn x" onclick="dlg.close()">✕</button><h3>${fmt(d,{weekday:'long',month:'long',day:'numeric',year:'numeric'})}</h3><div>${weekTags(w)} ${special(d)?`<span class="tag rc">${special(d)}</span>`:''}</div>${w?`<p class="cd">Week ${w.n}: ${esc(w.focus)}</p>`:''}`;
@@ -115,8 +118,8 @@ function detail(e){return`<div class="sess k-${e.k}" style="cursor:default;displ
 const dlg=$('#dlg');function openDlg(h){$('#dlgc').innerHTML=h;dlg.showModal()}
 dlg.onclick=e=>{if(e.target===dlg)dlg.close()};
 document.addEventListener('click',e=>{const s=e.target.closest('.sess[data-i]');if(s&&!dlg.open){const ev=P.events[+s.dataset.i];openDlg(`<button class="btn x" onclick="dlg.close()">✕</button><h3>${fmt(ev.d,{weekday:'long',month:'long',day:'numeric'})}</h3>`+detail(ev))}});
-function show(v){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({week:renderWeek,month:renderMonth,plan:renderPlan})[v]();location.hash=v}
+function show(v){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({week:renderWeek,month:renderMonth,plan:renderPlan,fuel:renderFuel,recovery:renderRecovery})[v]();location.hash=v}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.v));
 wkStart=mondayOf(TODAY);const td=D(TODAY);mo=[td.getUTCFullYear(),td.getUTCMonth()];
-show(['week','month','plan'].includes(location.hash.slice(1))?location.hash.slice(1):'week');
+show(['week','month','plan','fuel','recovery'].includes(location.hash.slice(1))?location.hash.slice(1):'week');
 </script></body></html>
