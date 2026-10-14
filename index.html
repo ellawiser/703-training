@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ella · IRONMAN 70.3 Plan</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="70.3 Plan">
+<meta name="theme-color" content="#0b6e99" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111418" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="icon.svg"><link rel="apple-touch-icon" href="icon-180.png"><link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--fg:#1b1f24;--mut:#667;--bd:#dde1e6;--acc:#0b6e99;
+--swim:#1e88e5;--bike:#f57c00;--run:#2e7d32;--str:#8e24aa;--brick:#c62828;--mob:#00897b;--rest:#9e9e9e;--race:#d4a017;--rec:#e3f2fd;--tst:#fff3e0}
+@media(prefers-color-scheme:dark){:root{--bg:#111418;--card:#1b2027;--fg:#e8eaed;--mut:#9aa3ad;--bd:#2c333c;--acc:#4fb3e0;--rec:#16283a;--tst:#3a2a14}}
+*{box-sizing:border-box}body{margin:0;font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--fg);padding-bottom:env(safe-area-inset-bottom)}
+header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--bd);padding:calc(8px + env(safe-area-inset-top)) 12px 0}
+h1{font-size:17px;margin:0 0 4px}.cd{font-size:13px;color:var(--mut)}.cd b{color:var(--acc)}
+nav{display:flex;gap:4px;margin-top:8px}nav button{flex:1;border:0;background:none;color:var(--mut);padding:9px 4px;font:inherit;font-weight:600;border-bottom:3px solid transparent;cursor:pointer}
+nav button.on{color:var(--acc);border-color:var(--acc)}
+main{max-width:1100px;margin:0 auto;padding:12px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--mut);margin:4px 0 12px}.legend span{display:inline-flex;align-items:center;gap:4px}
+.dot{width:10px;height:10px;border-radius:3px;display:inline-block;flex:none}
+.k-swim{--c:var(--swim)}.k-bike{--c:var(--bike)}.k-run{--c:var(--run)}.k-str{--c:var(--str)}.k-brick{--c:var(--brick)}.k-mob{--c:var(--mob)}.k-rest{--c:var(--rest)}.k-race{--c:var(--race)}
+.dot{background:var(--c)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:10px}
+.wkhead{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:space-between}
+.tag{font-size:11px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--bd);white-space:nowrap}
+.tag.rec{background:#90caf9;color:#0d2a44}.tag.tst{background:#ffb74d;color:#3e2300}.tag.ph{background:var(--acc);color:#fff}.tag.rc{background:var(--race);color:#2b2000}
+.day{border-top:1px solid var(--bd);padding:8px 0}.day:first-of-type{border-top:0}.day.today{background:linear-gradient(90deg,color-mix(in srgb,var(--acc) 14%,transparent),transparent);margin:0 -12px;padding:8px 12px}
+.dname{font-weight:700;font-size:13px;color:var(--mut);margin-bottom:4px}.today .dname{color:var(--acc)}
+.sess{display:flex;gap:8px;align-items:flex-start;padding:7px 8px;border-radius:8px;border-left:4px solid var(--c);background:color-mix(in srgb,var(--c) 9%,transparent);margin:4px 0;cursor:pointer}
+.sess:hover{background:color-mix(in srgb,var(--c) 18%,transparent)}.sess .tm{font-variant-numeric:tabular-nums;font-size:12px;color:var(--mut);min-width:44px}.sess .loc{font-size:12px;color:var(--mut)}
+.row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.row button,.btn{border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:8px;padding:7px 12px;font:inherit;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.grid .h{font-size:11px;text-align:center;color:var(--mut);font-weight:700}
+.cell{min-height:64px;background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:3px;cursor:pointer;overflow:hidden}
+.cell.out{opacity:.35}.cell.rec{background:var(--rec)}.cell.tst{background:var(--tst)}.cell.today{outline:2px solid var(--acc)}
+.cell .n{font-size:12px;font-weight:700}.cell .ds{display:flex;flex-wrap:wrap;gap:2px;margin-top:2px}
+.cell .lbl{display:none;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:3px solid var(--c);padding-left:3px;margin-top:2px}
+.cell .big{font-size:10px;font-weight:800;color:#a07800;display:block}
+@media(min-width:760px){.cell{min-height:96px}.cell .lbl{display:block}.cell .ds{display:none}}
+dialog{border:0;border-radius:14px;padding:0;max-width:600px;width:calc(100% - 20px);background:var(--card);color:var(--fg);max-height:85vh}
+dialog::backdrop{background:#0008}.dlg{padding:16px}.dlg h3{margin:0 0 8px}.dlg pre{white-space:pre-wrap;font:inherit;margin:0}
+.dlg .x{float:right}
+.plan h2{font-size:18px;margin:0}.plan details{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.plan summary{font-weight:700;cursor:pointer}.plan .tw{overflow-x:auto}.plan table{border-collapse:collapse;font-size:13px;margin:8px 0}.plan td,.plan th{border:1px solid var(--bd);padding:4px 6px;vertical-align:top}
+.plan th{background:var(--bg)}.plan h3{font-size:15px;margin-top:16px}
+.wkgrid{display:grid;gap:10px}@media(min-width:900px){.wkgrid{grid-template-columns:1fr 1fr}}
+.mile{display:flex;flex-wrap:wrap;gap:8px}.mile .card{flex:1;min-width:150px;margin:0;text-align:center}.mile b{display:block;font-size:22px;color:var(--acc)}
+</style></head><body>
+<header><h1>🏁 Ella's IRONMAN 70.3 Oregon Plan</h1><div class="cd" id="cd"></div>
+<nav><button data-v="week" class="on">Today / Week</button><button data-v="month">Month</button><button data-v="plan">Plan</button></nav></header>
+<main id="main"></main>
+<dialog id="dlg"><div class="dlg" id="dlgc"></div></dialog>
+<script src="data.js"></script>
+<script>
+const P=window.PLAN,$=s=>document.querySelector(s);
+const SPORTS=[['swim','Swim'],['bike','Bike'],['run','Run'],['str','Strength'],['brick','Brick'],['mob','Mobility'],['rest','Rest'],['race','Race']];
+const RACE='2027-07-18',HALF='2026-11-08',TRI='2027-06-13';
+function nyToday(){return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}
+const TODAY=nyToday();
+const D=s=>{const[y,m,d]=s.split('-').map(Number);return new Date(Date.UTC(y,m-1,d))};
+const iso=d=>d.toISOString().slice(0,10);
+const add=(s,n)=>{const d=D(s);d.setUTCDate(d.getUTCDate()+n);return iso(d)};
+const diff=(a,b)=>Math.round((D(b)-D(a))/864e5);
+const fmt=(s,o)=>D(s).toLocaleDateString('en-US',Object.assign({timeZone:'UTC'},o));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const byDay={};P.events.forEach((e,i)=>{e.i=i;(byDay[e.d]=byDay[e.d]||[]).push(e)});
+Object.values(byDay).forEach(a=>a.sort((x,y)=>(x.t||'00')<(y.t||'00')?-1:1));
+const SESS=d=>(byDay[d]||[]).filter(e=>!['phase','recovery','test'].includes(e.k));
+function weekOf(d){const n=Math.floor(diff(P.D0,d)/7)+1;return P.weeks.find(w=>w.n===n)}
+function hm(m){return m?`${Math.floor(m/60)}:${String(m%60).padStart(2,'0')}`:''}
+function tm12(t){if(!t)return'';let[h,m]=t.split(':').map(Number);return`${(h+11)%12+1}:${String(m).padStart(2,'0')}${h<12?'a':'p'}`}
+function special(d){return d===RACE?'🏆 RACE DAY':d===HALF?'🏃 Half marathon':d===TRI?'🏁 Practice tri':''}
+// countdown
+(function(){const n=diff(TODAY,RACE),h=diff(TODAY,HALF);$('#cd').innerHTML=n>0?`<b>${n}</b> days to race day (Sun Jul 18, 2027)`+(h>0?` · <b>${h}</b> to the half`:''):n===0?'<b>RACE DAY! 🏆</b>':'Race complete 🎉'})();
+const legend=()=>`<div class="legend">${SPORTS.map(([k,l])=>`<span class="k-${k}"><i class="dot"></i>${l}</span>`).join('')}<span><i class="dot" style="background:#90caf9"></i>Recovery wk</span><span><i class="dot" style="background:#ffb74d"></i>Test wk</span></div>`;
+function weekTags(w){if(!w)return'';return`<span class="tag ph">${esc(w.phase)}</span>${w.rec?'<span class="tag rec">Recovery</span>':''}${w.test?'<span class="tag tst">Test week</span>':''}`}
+function sessHTML(e){return`<div class="sess k-${e.k}" data-i="${e.i}"><div class="tm">${tm12(e.t)}${e.m?'<br>'+hm(e.m):''}</div><div><div>${esc(e.s)}</div>${e.loc?`<div class="loc">📍 ${esc(e.loc)}</div>`:''}</div></div>`}
+let wkStart;
+function mondayOf(d){return add(d,-((D(d).getUTCDay()+6)%7))}
+function renderWeek(){
+  const w=weekOf(wkStart);let h=`<div class="row"><button id="pw">‹ Prev</button><button id="tw">Today</button><button id="nw">Next ›</button></div>`;
+  if(diff(TODAY,P.D0)>0&&wkStart<P.D0)h+=`<div class="card">Plan starts <b>Mon ${fmt(P.D0,{month:'short',day:'numeric'})}</b> (in ${diff(TODAY,P.D0)} days). Week 0 is the restart week: just get consistent. <div class="mile" style="margin-top:10px"><div class="card"><b>${diff(TODAY,HALF)}</b>days to half</div><div class="card"><b>${diff(TODAY,TRI)}</b>days to practice tri</div><div class="card"><b>${diff(TODAY,RACE)}</b>days to race</div></div></div>`;
+  h+=`<div class="card"><div class="wkhead"><b>${w?`Week ${w.n} · ${esc(w.focus)}`:'Outside plan'} </b><span>${weekTags(w)}</span></div><div class="cd">${fmt(wkStart,{month:'short',day:'numeric'})} – ${fmt(add(wkStart,6),{month:'short',day:'numeric',year:'numeric'})}${w?` · ${hm(w.mins)} planned`:''}</div>${w&&w.note?`<div class="cd" style="margin-top:4px">📝 ${esc(w.note)}</div>`:''}</div>`;
+  const days=[...Array(7)].map((_,i)=>add(wkStart,i));
+  // today card first on mobile
+  h+=legend()+'<div class="card">';
+  days.forEach(d=>{const s=SESS(d),sp=special(d);h+=`<div class="day${d===TODAY?' today':''}" id="d${d}"><div class="dname">${fmt(d,{weekday:'long',month:'short',day:'numeric'})}${d===TODAY?' · TODAY':''} ${sp?`<span class="tag rc">${sp}</span>`:''}</div>${s.length?s.map(sessHTML).join(''):'<div class="cd">—</div>'}</div>`});
+  $('#main').innerHTML=h+'</div>';
+  $('#pw').onclick=()=>{wkStart=add(wkStart,-7);renderWeek()};$('#nw').onclick=()=>{wkStart=add(wkStart,7);renderWeek()};$('#tw').onclick=()=>{wkStart=mondayOf(TODAY);renderWeek()};
+  const t=document.getElementById('d'+TODAY);if(t)t.scrollIntoView({block:'nearest'});
+}
+let mo;
+function renderMonth(){
+  const [y,m]=mo;const first=iso(new Date(Date.UTC(y,m,1)));let s=mondayOf(first);
+  let h=`<div class="row"><button id="pm">‹</button><b>${fmt(first,{month:'long',year:'numeric'})}</b><button id="nm">›</button></div>`+legend()+'<div class="grid">'+['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(x=>`<div class="h">${x}</div>`).join('');
+  for(let i=0;i<42;i++){const d=add(s,i);if(i===35&&D(d).getUTCMonth()!==m)break;const w=weekOf(d),ss=SESS(d),sp=special(d);
+    h+=`<div class="cell${D(d).getUTCMonth()!==m?' out':''}${w&&w.rec?' rec':''}${w&&w.test?' tst':''}${d===TODAY?' today':''}" data-d="${d}"><div class="n">${D(d).getUTCDate()}${(D(d).getUTCDay()===1&&w)?` <span class="cd" style="font-size:10px">W${w.n}</span>`:''}</div>${sp?`<span class="big">${sp}</span>`:''}<div class="ds">${ss.filter(e=>e.k!=='rest').map(e=>`<i class="dot k-${e.k}"></i>`).join('')}</div>${ss.map(e=>`<div class="lbl k-${e.k}">${esc(e.s.replace(/^\S+\s(– )?/,''))}</div>`).join('')}</div>`}
+  $('#main').innerHTML=h+'</div><p class="cd">Blue = recovery week · Orange = test week. Tap a day for details.</p>';
+  $('#pm').onclick=()=>{mo=m?[y,m-1]:[y-1,11];renderMonth()};$('#nm').onclick=()=>{mo=m<11?[y,m+1]:[y+1,0];renderMonth()};
+  document.querySelectorAll('.cell').forEach(c=>c.onclick=()=>showDay(c.dataset.d));
+}
+function renderPlan(){$('#main').innerHTML='<div class="plan">'+P.plan.map((s,i)=>`<details${i<1?' open':''}><summary><h2 style="display:inline">${esc(s.title)}</h2></summary>${s.html.replace(/<table>/g,'<div class="tw"><table>').replace(/<\/table>/g,'</table></div>')}</details>`).join('')+'</div>'}
+function showDay(d){const w=weekOf(d),all=byDay[d]||[];
+  let h=`<button class="btn x" onclick="dlg.close()">✕</button><h3>${fmt(d,{weekday:'long',month:'long',day:'numeric',year:'numeric'})}</h3><div>${weekTags(w)} ${special(d)?`<span class="tag rc">${special(d)}</span>`:''}</div>${w?`<p class="cd">Week ${w.n}: ${esc(w.focus)}</p>`:''}`;
+  all.filter(e=>['phase','recovery','test'].includes(e.k)).forEach(e=>h+=`<p><b>${esc(e.s)}</b>${e.desc?'<br><span class=cd>'+esc(e.desc)+'</span>':''}</p>`);
+  SESS(d).forEach(e=>h+=detail(e));if(!all.length)h+='<p class="cd">No sessions planned.</p>';
+  openDlg(h)}
+function detail(e){return`<div class="sess k-${e.k}" style="cursor:default;display:block"><b>${esc(e.s)}</b><div class="cd">${e.t?'🕒 '+tm12(e.t)+(e.m?' · ':''):''}${e.m?'⏱ '+hm(e.m):''}${e.loc?' · 📍 '+esc(e.loc):''}</div>${e.desc?`<pre style="margin-top:6px">${esc(e.desc)}</pre>`:''}</div>`}
+const dlg=$('#dlg');function openDlg(h){$('#dlgc').innerHTML=h;dlg.showModal()}
+dlg.onclick=e=>{if(e.target===dlg)dlg.close()};
+document.addEventListener('click',e=>{const s=e.target.closest('.sess[data-i]');if(s&&!dlg.open){const ev=P.events[+s.dataset.i];openDlg(`<button class="btn x" onclick="dlg.close()">✕</button><h3>${fmt(ev.d,{weekday:'long',month:'long',day:'numeric'})}</h3>`+detail(ev))}});
+function show(v){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({week:renderWeek,month:renderMonth,plan:renderPlan})[v]();location.hash=v}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.v));
+wkStart=mondayOf(TODAY);const td=D(TODAY);mo=[td.getUTCFullYear(),td.getUTCMonth()];
+show(['week','month','plan'].includes(location.hash.slice(1))?location.hash.slice(1):'week');
+</script></body></html>
