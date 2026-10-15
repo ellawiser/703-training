@@ -1,125 +1,297 @@
-<!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Ella · IRONMAN 70.3 Musselman Plan</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Musselman 70.3 Calendar · Ella</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="70.3 Plan">
-<meta name="theme-color" content="#0b6e99" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#111418" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f3f6f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1515" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="icon.svg"><link rel="apple-touch-icon" href="icon-180.png"><link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;})();</script>
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--fg:#1b1f24;--mut:#667;--bd:#dde1e6;--acc:#0b6e99;
---swim:#1e88e5;--bike:#f57c00;--run:#2e7d32;--str:#8e24aa;--brick:#c62828;--mob:#00897b;--rest:#9e9e9e;--race:#d4a017;--rec:#e3f2fd;--tst:#fff3e0}
-@media(prefers-color-scheme:dark){:root{--bg:#111418;--card:#1b2027;--fg:#e8eaed;--mut:#9aa3ad;--bd:#2c333c;--acc:#4fb3e0;--rec:#16283a;--tst:#3a2a14}}
-*{box-sizing:border-box}body{margin:0;font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--fg);padding-bottom:env(safe-area-inset-bottom)}
-header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--bd);padding:calc(8px + env(safe-area-inset-top)) 12px 0}
-h1{font-size:17px;margin:0 0 4px}.cd{font-size:13px;color:var(--mut)}.cd b{color:var(--acc)}
-nav{display:flex;gap:4px;margin-top:8px}nav button{flex:1;border:0;background:none;color:var(--mut);padding:9px 4px;font:inherit;font-weight:600;border-bottom:3px solid transparent;cursor:pointer}
-nav button.on{color:var(--acc);border-color:var(--acc)}
-main{max-width:1100px;margin:0 auto;padding:12px}
-.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--mut);margin:4px 0 12px}.legend span{display:inline-flex;align-items:center;gap:4px}
-.dot{width:10px;height:10px;border-radius:3px;display:inline-block;flex:none}
-.k-swim{--c:var(--swim)}.k-bike{--c:var(--bike)}.k-run{--c:var(--run)}.k-str{--c:var(--str)}.k-brick{--c:var(--brick)}.k-mob{--c:var(--mob)}.k-rest{--c:var(--rest)}.k-race{--c:var(--race)}
-.dot{background:var(--c)}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:10px}
-.wkhead{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:space-between}
-.tag{font-size:11px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--bd);white-space:nowrap}
-.tag.rec{background:#90caf9;color:#0d2a44}.tag.tst{background:#ffb74d;color:#3e2300}.tag.ph{background:var(--acc);color:#fff}.tag.rc{background:var(--race);color:#2b2000}
-.day{border-top:1px solid var(--bd);padding:8px 0}.day:first-of-type{border-top:0}.day.today{background:linear-gradient(90deg,color-mix(in srgb,var(--acc) 14%,transparent),transparent);margin:0 -12px;padding:8px 12px}
-.dname{font-weight:700;font-size:13px;color:var(--mut);margin-bottom:4px}.today .dname{color:var(--acc)}
-.sess{display:flex;gap:8px;align-items:flex-start;padding:7px 8px;border-radius:8px;border-left:4px solid var(--c);background:color-mix(in srgb,var(--c) 9%,transparent);margin:4px 0;cursor:pointer}
-.sess:hover{background:color-mix(in srgb,var(--c) 18%,transparent)}.sess .tm{font-variant-numeric:tabular-nums;font-size:12px;color:var(--mut);min-width:44px}.sess .loc{font-size:12px;color:var(--mut)}
-.row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px}
-.row button,.btn{border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:8px;padding:7px 12px;font:inherit;cursor:pointer}
-.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.grid .h{font-size:11px;text-align:center;color:var(--mut);font-weight:700}
-.cell{min-height:64px;background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:3px;cursor:pointer;overflow:hidden}
-.cell.out{opacity:.35}.cell.rec{background:var(--rec)}.cell.tst{background:var(--tst)}.cell.today{outline:2px solid var(--acc)}
-.cell .n{font-size:12px;font-weight:700}.cell .ds{display:flex;flex-wrap:wrap;gap:2px;margin-top:2px}
-.cell .lbl{display:none;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:3px solid var(--c);padding-left:3px;margin-top:2px}
-.cell .big{font-size:10px;font-weight:800;color:#a07800;display:block}
-@media(min-width:760px){.cell{min-height:96px}.cell .lbl{display:block}.cell .ds{display:none}}
-dialog{border:0;border-radius:14px;padding:0;max-width:600px;width:calc(100% - 20px);background:var(--card);color:var(--fg);max-height:85vh}
-dialog::backdrop{background:#0008}.dlg{padding:16px}.dlg h3{margin:0 0 8px}.dlg pre{white-space:pre-wrap;font:inherit;margin:0}
-.dlg .x{float:right}
-.plan h2{font-size:18px;margin:0}.plan details{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px 12px;margin-bottom:8px}
-.plan summary{font-weight:700;cursor:pointer}.plan .tw{overflow-x:auto}.plan table{border-collapse:collapse;font-size:13px;margin:8px 0}.plan td,.plan th{border:1px solid var(--bd);padding:4px 6px;vertical-align:top}
-.plan th{background:var(--bg)}.plan h3{font-size:15px;margin-top:16px}
-.wkgrid{display:grid;gap:10px}@media(min-width:900px){.wkgrid{grid-template-columns:1fr 1fr}}
-.mile{display:flex;flex-wrap:wrap;gap:8px}.mile .card{flex:1;min-width:150px;margin:0;text-align:center}.mile b{display:block;font-size:22px;color:var(--acc)}
-</style></head><body>
-<header><h1>🏁 Ella's IRONMAN 70.3 Musselman Plan</h1><div class="cd" id="cd"></div>
-<nav><button data-v="week" class="on">Today / Week</button><button data-v="month">Month</button><button data-v="plan">Plan</button><button data-v="fuel">Fuel</button><button data-v="recovery">Recovery</button></nav></header>
-<main id="main"></main>
-<dialog id="dlg"><div class="dlg" id="dlgc"></div></dialog>
+/* Layout: race-bib header with countdowns, month grid on the left, sticky day sheet on the right; stacks on phones */
+:root{
+  --bg:#f3f6f7; --surface:#ffffff; --fg:#14201f; --muted:#5b6b6a; --line:#d9e2e2; --accent:#0e7c86;
+  --swim:#1f7fb8; --bike:#c98a12; --run:#d2553f; --str:#6a5aa8; --yoga:#3f8f5a; --race:#b8327a; --rest:#8a9796; --brick:#a8642a;
+  --tint:#e7eff0;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0e1515; --surface:#152020; --fg:#e4eeed; --muted:#93a5a3; --line:#263534; --accent:#4fc0c9;
+  --swim:#5fb2e6; --bike:#e6b04a; --run:#ef7d68; --str:#9d8fe0; --yoga:#6cc189; --race:#e46aa8; --rest:#7c8b8a; --brick:#d99a5e; --tint:#1b2a2a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0e1515; --surface:#152020; --fg:#e4eeed; --muted:#93a5a3; --line:#263534; --accent:#4fc0c9;
+  --swim:#5fb2e6; --bike:#e6b04a; --run:#ef7d68; --str:#9d8fe0; --yoga:#6cc189; --race:#e46aa8; --rest:#7c8b8a; --brick:#d99a5e; --tint:#1b2a2a; color-scheme:dark }
+:root[data-theme="light"]{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5;padding-inline:max(16px,env(safe-area-inset-left));padding-block:calc(20px + env(safe-area-inset-top)) calc(48px + env(safe-area-inset-bottom))}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:2px solid var(--fg);padding-bottom:14px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(2rem,5vw,3rem);line-height:1;margin:0;letter-spacing:.01em;text-transform:uppercase;text-wrap:balance}
+.sub{color:var(--muted);margin:6px 0 0}
+.counts{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch}
+.count{border:1.5px solid var(--fg);padding:6px 12px;display:flex;flex-direction:column;min-width:120px}
+.count b{font-family:var(--display);font-size:1.9rem;line-height:1;font-variant-numeric:tabular-nums}
+.count span{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.count.race b{color:var(--race)}
+.theme{font:600 .8rem var(--display);letter-spacing:.08em;text-transform:uppercase;background:transparent;color:var(--fg);border:1.5px solid var(--line);padding:6px 10px;cursor:pointer;min-width:84px}
+.main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:900px){.main{grid-template-columns:minmax(0,1fr)}}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{font:600 .95rem var(--display);letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--fg);border:1.5px solid var(--line);padding:6px 14px;cursor:pointer}
+.tabs button[aria-pressed="true"],.tabs button[aria-selected="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.tabs.views{border-bottom:1.5px solid var(--line);padding-bottom:10px;margin-bottom:0}
+.tabs.months button{padding:5px 10px;font-size:.88rem}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.8rem;color:var(--muted);margin:8px 0 12px}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.dow{font:600 .75rem var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:2px 4px}
+.cell{background:var(--surface);border:1px solid var(--line);min-height:96px;padding:6px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:3px;color:var(--fg);font:inherit;min-width:0}
+.cell.empty{background:transparent;border-color:transparent;cursor:default}
+.cell.off{opacity:.45;cursor:default}
+.cell.recw{background:color-mix(in srgb,var(--swim) 6%,var(--surface))}
+.cell.racew{border-color:var(--race)}
+.cell[aria-current="date"]{outline:2px solid var(--fg);outline-offset:-2px}
+.cell.sel{background:var(--tint);border-color:var(--fg)}
+.cell .n{display:flex;justify-content:space-between;align-items:baseline;font:600 .95rem var(--display)}
+.cell .n small{font:500 .62rem var(--body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.cell .n small.r{color:var(--race);font-weight:600}
+.pill{font-size:.72rem;line-height:1.25;padding:1px 4px 1px 6px;border-left:3px solid var(--c);background:color-mix(in srgb,var(--c) 12%,transparent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dots{display:none;gap:3px;flex-wrap:wrap}
+.bed{margin-top:auto;font:500 .66rem var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.dots i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+@media (max-width:560px){.cell{min-height:56px;padding:4px}.pill,.bed{display:none}.dots{display:flex}.cell .n small{display:none}}
+.phase{font:600 .72rem var(--body);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:14px 0 4px}
+aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--surface);border:1.5px solid var(--fg);padding:18px;min-width:0;max-height:calc(100vh - 24px);overflow:auto}
+@media (max-width:900px){aside{position:static;max-height:none}}
+.dhead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.dhead h2{font:700 1.8rem/1 var(--display);text-transform:uppercase;margin:0}
+.tag{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;border:1px solid var(--line);padding:2px 8px;color:var(--muted);display:inline-block;margin:0 4px 4px 0}
+.tag.hot{border-color:var(--race);color:var(--race)}
+.navbtn{display:flex;gap:6px}
+.navbtn button{background:transparent;border:1.5px solid var(--line);color:var(--fg);width:34px;height:30px;cursor:pointer;font:600 1rem var(--body)}
+.navbtn button.today{width:auto;padding:0 8px;font:600 .8rem var(--display);letter-spacing:.06em;text-transform:uppercase}
+.navbtn button:disabled{opacity:.35;cursor:default}
+h3{font:600 .8rem var(--body);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:18px 0 8px}
+.tl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:.9rem}
+.tl .t{font:500 .85rem var(--mono);font-variant-numeric:tabular-nums;color:var(--accent);white-space:nowrap}
+.tl .t.desk{color:var(--fg);font-weight:700}
+.tl small{display:block;color:var(--muted);font-size:.8rem}
+.sess{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.sess h4{margin:0;font:700 1.25rem/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em;display:flex;align-items:center;gap:8px}
+.sess h4 i{width:12px;height:12px;background:var(--c);flex:none}
+.meta{color:var(--muted);font-size:.85rem;margin:3px 0 8px}
+.sets{width:100%;border-collapse:collapse;font-size:.9rem}
+.sets td{padding:5px 0;border-bottom:1px dashed var(--line);vertical-align:top}
+.sets td:first-child{width:96px;font:600 .72rem var(--body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding-right:10px;padding-top:7px}
+.why{font-size:.88rem;margin:8px 0 0;padding:8px 10px;background:var(--tint)}
+.alt{font-size:.85rem;color:var(--muted);margin:8px 0 0}
+footer{color:var(--muted);font-size:.82rem;border-top:1px solid var(--line);padding-top:12px;max-width:75ch}
+/* Plan / Fuel / Recovery documents in the same style */
+.doc{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:900px){.doc{grid-template-columns:minmax(0,1fr)}.doc nav{display:none}}
+.doc nav{position:sticky;top:12px;display:flex;flex-direction:column;gap:2px;border-left:2px solid var(--line)}
+.doc nav a{color:var(--muted);text-decoration:none;font-size:.85rem;padding:3px 10px;line-height:1.3}
+.doc nav a:hover{color:var(--fg)}
+.doc details{background:var(--surface);border:1px solid var(--line);margin-bottom:10px;padding:0 16px}
+.doc details[open]{border:1.5px solid var(--fg)}
+.doc summary{font:700 1.3rem/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em;cursor:pointer;padding:12px 0}
+.doc .body{padding-bottom:14px;overflow-x:auto}
+.doc table{border-collapse:collapse;font-size:.88rem;margin:8px 0;min-width:100%}
+.doc th{font:600 .72rem var(--body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;border-bottom:1.5px solid var(--fg);padding:5px 8px 5px 0}
+.doc td{border-bottom:1px dashed var(--line);padding:5px 8px 5px 0;vertical-align:top}
+.doc h3,.doc h4,.doc h5{font:600 .8rem var(--body);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:16px 0 6px}
+.doc code{font-family:var(--mono);font-size:.85em}
+.weeks{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;margin-bottom:16px}
+.wk{background:var(--surface);border:1px solid var(--line);padding:8px 10px;cursor:pointer;text-align:left;font:inherit;color:var(--fg)}
+.wk b{font:700 1.05rem var(--display);text-transform:uppercase}.wk small{display:block;color:var(--muted);font-size:.8rem}
+.wk.cur{border:1.5px solid var(--fg);background:var(--tint)}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:no-preference){.cell{transition:background .12s}}
+</style>
+</head><body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Musselman 70.3 Calendar</h1>
+      <p class="sub">Ella's day-by-day plan, Oct 12, 2026 – IRONMAN 70.3 Musselman, Sun Jul 11, 2027 · Boston Half Sun Nov 8.</p>
+    </div>
+    <div class="counts">
+      <div class="count race" id="bosBox"><b id="cBos">–</b><span>days to Boston Half</span></div>
+      <div class="count race"><b id="cMus">–</b><span>days to Musselman</span></div>
+      <div class="count"><b id="cWk">–</b><span id="cWkL">training week</span></div>
+      <button class="theme" id="theme" aria-label="Toggle colour theme">Auto</button>
+    </div>
+  </header>
+
+  <div class="tabs views" role="tablist" aria-label="Sections">
+    <button role="tab" data-v="cal" aria-selected="true">Calendar</button>
+    <button role="tab" data-v="weeks" aria-selected="false">Weeks</button>
+    <button role="tab" data-v="plan" aria-selected="false">Plan</button>
+    <button role="tab" data-v="fuel" aria-selected="false">Fuel</button>
+    <button role="tab" data-v="recovery" aria-selected="false">Recovery</button>
+  </div>
+
+  <div class="main" id="v-cal">
+    <section aria-label="Calendar">
+      <div class="tabs months" role="group" aria-label="Month" id="months"></div>
+      <div class="legend" id="legend"></div>
+      <div id="cal"></div>
+    </section>
+    <aside id="day" aria-live="polite"></aside>
+  </div>
+  <section id="v-weeks" hidden><div class="weeks" id="weeks"></div></section>
+  <section id="v-plan" class="doc" hidden></section>
+  <section id="v-fuel" class="doc" hidden></section>
+  <section id="v-recovery" class="doc" hidden></section>
+
+  <footer>
+    Session times are the planned start. "Bed" in the calendar and the Tonight card give 8 hours of sleep plus 15 minutes to fall asleep before the next morning's first session, with about 45 minutes to wake, eat and get to the gym. Gyms are Life Time clubs (Wellhub Gold) unless noted. Bike zones are set from FTP and update after each test week; run zones from LTHR. Sharp pain in one spot on your shin means stop and swap the run for a swim or spin. Fueling is gluten-free throughout.
+  </footer>
+</div>
 <script src="data.js"></script>
 <script>
-const P=window.PLAN,$=s=>document.querySelector(s);
-const SPORTS=[['swim','Swim'],['bike','Bike'],['run','Run'],['str','Strength'],['brick','Brick'],['mob','Mobility'],['rest','Rest'],['race','Race']];
-const RACE='2027-07-11',HALF='2026-11-08',TRI='2027-06-13';
-function nyToday(){return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}
-const TODAY=nyToday();
-const D=s=>{const[y,m,d]=s.split('-').map(Number);return new Date(Date.UTC(y,m-1,d))};
-const iso=d=>d.toISOString().slice(0,10);
-const add=(s,n)=>{const d=D(s);d.setUTCDate(d.getUTCDate()+n);return iso(d)};
-const diff=(a,b)=>Math.round((D(b)-D(a))/864e5);
-const fmt=(s,o)=>D(s).toLocaleDateString('en-US',Object.assign({timeZone:'UTC'},o));
+const P=window.PLAN;
+const KC={swim:'--swim',bike:'--bike',run:'--run',str:'--str',mob:'--yoga',brick:'--brick',race:'--race',rest:'--rest'};
+const NAMES={swim:'Swim',bike:'Bike',run:'Run',str:'Strength',mob:'Yoga / mobility',brick:'Brick',race:'Race',rest:'Rest'};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const byDay={};P.events.forEach((e,i)=>{e.i=i;(byDay[e.d]=byDay[e.d]||[]).push(e)});
-Object.values(byDay).forEach(a=>a.sort((x,y)=>(x.t||'00')<(y.t||'00')?-1:1));
-const SESS=d=>(byDay[d]||[]).filter(e=>!['phase','recovery','test'].includes(e.k));
-function weekOf(d){const n=Math.floor(diff(P.D0,d)/7)+1;return P.weeks.find(w=>w.n===n)}
-function hm(m){return m?`${Math.floor(m/60)}:${String(m%60).padStart(2,'0')}`:''}
-function tm12(t){if(!t)return'';let[h,m]=t.split(':').map(Number);return`${(h+11)%12+1}:${String(m).padStart(2,'0')}${h<12?'a':'p'}`}
-function special(d){return d===RACE?'🏆 RACE DAY · 70.3 Musselman':d===HALF?'🏃 Boston Half':d===TRI?'🏁 Practice tri':''}
-// countdown
-(function(){const n=diff(TODAY,RACE),h=diff(TODAY,HALF);$('#cd').innerHTML=n>0?`<b>${n}</b> days to Musselman 70.3 (Sun Jul 11, 2027)`+(h>0?` · <b>${h}</b> to the Boston Half (Nov 8)`:''):n===0?'<b>RACE DAY! 🏆</b>':'Race complete 🎉'})();
-const legend=()=>`<div class="legend">${SPORTS.map(([k,l])=>`<span class="k-${k}"><i class="dot"></i>${l}</span>`).join('')}<span><i class="dot" style="background:#90caf9"></i>Recovery wk</span><span><i class="dot" style="background:#ffb74d"></i>Test wk</span></div>`;
-function weekTags(w){if(!w)return'';return`<span class="tag ph">${esc(w.phase)}</span>${w.rec?'<span class="tag rec">Recovery</span>':''}${w.test?'<span class="tag tst">Test week</span>':''}`}
-function sessHTML(e){return`<div class="sess k-${e.k}" data-i="${e.i}"><div class="tm">${tm12(e.t)}${e.m?'<br>'+hm(e.m):''}</div><div><div>${esc(e.s)}</div>${e.loc?`<div class="loc">📍 ${esc(e.loc)}</div>`:''}</div></div>`}
-let wkStart;
-function mondayOf(d){return add(d,-((D(d).getUTCDay()+6)%7))}
-function renderWeek(){
-  const w=weekOf(wkStart);let h=`<div class="row"><button id="pw">‹ Prev</button><button id="tw">Today</button><button id="nw">Next ›</button></div>`;
-  if(diff(TODAY,P.D0)>0&&wkStart<P.D0)h+=`<div class="card">Plan starts <b>Mon ${fmt(P.D0,{month:'short',day:'numeric'})}</b> (in ${diff(TODAY,P.D0)} days). Week 0 is the restart week: just get consistent. <div class="mile" style="margin-top:10px"><div class="card"><b>${diff(TODAY,HALF)}</b>days to half</div><div class="card"><b>${diff(TODAY,TRI)}</b>days to practice tri</div><div class="card"><b>${diff(TODAY,RACE)}</b>days to race</div></div></div>`;
-  h+=`<div class="card"><div class="wkhead"><b>${w?`Week ${w.n} · ${esc(w.focus)}`:'Outside plan'} </b><span>${weekTags(w)}</span></div><div class="cd">${fmt(wkStart,{month:'short',day:'numeric'})} – ${fmt(add(wkStart,6),{month:'short',day:'numeric',year:'numeric'})}${w?` · ${hm(w.mins)} planned`:''}</div>${w&&w.note?`<div class="cd" style="margin-top:4px">📝 ${esc(w.note)}</div>`:''}</div>`;
-  const days=[...Array(7)].map((_,i)=>add(wkStart,i));
-  // today card first on mobile
-  h+=legend()+'<div class="card">';
-  days.forEach(d=>{const s=SESS(d),sp=special(d);h+=`<div class="day${d===TODAY?' today':''}" id="d${d}"><div class="dname">${fmt(d,{weekday:'long',month:'short',day:'numeric'})}${d===TODAY?' · TODAY':''} ${sp?`<span class="tag rc">${sp}</span>`:''}</div>${s.length?s.map(sessHTML).join(''):'<div class="cd">—</div>'}</div>`});
-  $('#main').innerHTML=h+'</div>';
-  $('#pw').onclick=()=>{wkStart=add(wkStart,-7);renderWeek()};$('#nw').onclick=()=>{wkStart=add(wkStart,7);renderWeek()};$('#tw').onclick=()=>{wkStart=mondayOf(TODAY);renderWeek()};
-  const t=document.getElementById('d'+TODAY);if(t)t.scrollIntoView({block:'nearest'});
+/* ---------- data ---------- */
+function parse(e){const f={};let note='';e.desc.split('\n').forEach(l=>{const m=l.match(/^(Session|Intensity\/zones|Purpose|Duration|Distance|Fueling|Week note):\s*(.*)$/);if(m)f[m[1]]=m[2];});return f;}
+const S={},MARK={};
+P.events.forEach(e=>{
+  const f=parse(e);
+  if(!f.Session){(MARK[e.d]=MARK[e.d]||[]).push(e);return;}
+  const title=f.Session, s=e.k, tm=e.t?+e.t.slice(0,2)*60+ +e.t.slice(3):null;
+  const short=e.s.replace(/^[^–]*–\s*/,'').replace(/\s*\(\d+:\d\d\)\s*$/,'').replace(/…$/,'').replace(/[;:]\s.*$/,'').replace(/^[\p{Extended_Pictographic}\uFE0F\s]+/u,'').trim().slice(0,48);
+  (S[e.d]=S[e.d]||{ses:[]}).ses.push({s,k:e.k,t:title,short,tm,d:e.m,where:e.loc,f});
+});
+Object.values(S).forEach(x=>x.ses.sort((a,b)=>(a.tm??1e4)-(b.tm??1e4)));
+const WEEKS=P.weeks;
+const weekOf=k=>{let w=null;for(const x of WEEKS)if(x.start<=k)w=x;return w;};
+const START=P.D0, END=P.race;
+function fuelFor(s){
+  if(s.f.Fueling)return s.f.Fueling;
+  if(s.s==='rest')return 'Rest-day plate: protein at every meal, normal carbs; water through the day.';
+  if(s.s==='mob')return 'None needed. Water; regular meal or snack.';
+  if(s.s==='str')return 'None during. Protein + carbs (20-30 g protein) within ~1 h after.';
+  if(s.d&&s.d<60)return 'Water only during (<60 min). Small carb snack beforehand if early; recovery meal with protein after.';
+  return 'Water + 30-60 g carbs/h after the first hour; GF options.';
 }
-let mo;
-function renderMonth(){
-  const [y,m]=mo;const first=iso(new Date(Date.UTC(y,m,1)));let s=mondayOf(first);
-  let h=`<div class="row"><button id="pm">‹</button><b>${fmt(first,{month:'long',year:'numeric'})}</b><button id="nm">›</button></div>`+legend()+'<div class="grid">'+['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(x=>`<div class="h">${x}</div>`).join('');
-  for(let i=0;i<42;i++){const d=add(s,i);if(i===35&&D(d).getUTCMonth()!==m)break;const w=weekOf(d),ss=SESS(d),sp=special(d);
-    h+=`<div class="cell${D(d).getUTCMonth()!==m?' out':''}${w&&w.rec?' rec':''}${w&&w.test?' tst':''}${d===TODAY?' today':''}" data-d="${d}"><div class="n">${D(d).getUTCDate()}${(D(d).getUTCDay()===1&&w)?` <span class="cd" style="font-size:10px">W${w.n}</span>`:''}</div>${sp?`<span class="big">${sp}</span>`:''}<div class="ds">${ss.filter(e=>e.k!=='rest').map(e=>`<i class="dot k-${e.k}"></i>`).join('')}</div>${ss.map(e=>`<div class="lbl k-${e.k}">${esc(e.s.replace(/^\S+\s(– )?/,''))}</div>`).join('')}</div>`}
-  $('#main').innerHTML=h+'</div><p class="cd">Blue = recovery week · Orange = test week. Tap a day for details.</p>';
-  $('#pm').onclick=()=>{mo=m?[y,m-1]:[y-1,11];renderMonth()};$('#nm').onclick=()=>{mo=m<11?[y,m+1]:[y+1,0];renderMonth()};
-  document.querySelectorAll('.cell').forEach(c=>c.onclick=()=>showDay(c.dataset.d));
+const durS=m=>m?`${Math.floor(m/60)}:${String(m%60).padStart(2,'0')}`:'–';
+/* ---------- time helpers ---------- */
+const fmt=m=>{m=((m%1440)+1440)%1440;let h=Math.floor(m/60),mm=m%60,ap=h>=12?'PM':'AM';h=h%12||12;return `${h}:${String(mm).padStart(2,'0')} ${ap}`};
+const fmtS=m=>fmt(m).replace(' PM','p').replace(' AM','a');
+const dkey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const addDays=(k,n)=>{const d=new Date(k+'T12:00');d.setDate(d.getDate()+n);return dkey(d);};
+const firstStart=k=>{const e=S[k];if(!e)return null;const t=e.ses.filter(s=>s.tm!=null).map(s=>s.tm);return t.length?Math.min(...t):null;};
+const SLEEP=8*60+15;
+function wakeFor(k){const t=firstStart(k);if(t==null||t>=11*60)return 7*60;return t-45;}
+function bedFor(k){if(!S[addDays(k,1)])return null;const w=wakeFor(addDays(k,1));return{bed:w-SLEEP+1440,wake:w};}
+const dow=k=>new Date(k+'T12:00').getDay();
+const isOffice=k=>[1,2,4].includes(dow(k))&&!(weekOf(k)||{}).rec;
+/* today in America/New_York */
+const tkey=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+const qs=new URLSearchParams(location.search).get('d');
+let sel=(qs&&qs>=START&&qs<=END)?qs:(tkey>=START&&tkey<=END?tkey:(tkey<START?START:END));
+const MI=k=>(+k.slice(0,4)-2026)*12+(+k.slice(5,7)-1);
+let month=MI(sel);
+/* ---------- header ---------- */
+const daysTo=t=>Math.round((new Date(t+'T12:00')-new Date(tkey+'T12:00'))/864e5);
+const db=daysTo('2026-11-08'),dm=daysTo(END);
+document.getElementById('cBos').textContent=db>=0?db:'✓';
+if(db<0)document.querySelector('#bosBox span').textContent='Boston Half done';
+document.getElementById('cMus').textContent=Math.max(0,dm);
+const cw=weekOf(tkey);document.getElementById('cWk').textContent=cw&&tkey<=END?cw.n+'/'+WEEKS.length:'–';
+/* theme toggle: auto -> light -> dark */
+const TH=document.getElementById('theme');
+function paintTheme(){const t=document.documentElement.dataset.theme||'auto';TH.textContent=t==='auto'?'◐ Auto':t==='light'?'☀ Light':'☾ Dark';}
+TH.onclick=()=>{const cur=document.documentElement.dataset.theme||'auto';const nx=cur==='auto'?'light':cur==='light'?'dark':'auto';
+  if(nx==='auto'){delete document.documentElement.dataset.theme;localStorage.removeItem('theme');}else{document.documentElement.dataset.theme=nx;localStorage.setItem('theme',nx);}paintTheme();};
+paintTheme();
+/* ---------- month tabs + legend ---------- */
+const MONTHS=[];for(let m=MI(START);m<=MI(END);m++)MONTHS.push(m);
+document.getElementById('months').innerHTML=MONTHS.map(m=>{const d=new Date(2026+Math.floor(m/12),m%12,1);return `<button data-m="${m}">${d.toLocaleDateString('en-US',{month:'short'})}${m%12===0||m===MONTHS[0]?' ’'+String(d.getFullYear()).slice(2):''}</button>`}).join('');
+document.querySelectorAll('#months button').forEach(b=>b.onclick=()=>{month=+b.dataset.m;renderCal();});
+document.getElementById('legend').innerHTML=Object.keys(KC).map(k=>`<span><i style="background:var(${KC[k]})"></i>${NAMES[k]}</span>`).join('');
+/* ---------- calendar ---------- */
+function renderCal(){
+  const cal=document.getElementById('cal');
+  const Y=2026+Math.floor(month/12),M=month%12;const first=new Date(Y,M,1),days=new Date(Y,M+1,0).getDate();
+  const lead=(first.getDay()+6)%7;
+  const ph=[...new Set(WEEKS.filter(w=>{const e=addDays(w.start,6);return e>=dkey(first)&&w.start<=dkey(new Date(Y,M,days));}).map(w=>w.phase))];
+  let h=`<div class="phase">${esc(ph.join(' · '))}</div><div class="grid">`+['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(x=>`<div class="dow">${x}</div>`).join('');
+  for(let i=0;i<lead;i++)h+='<div class="cell empty" aria-hidden="true"></div>';
+  for(let n=1;n<=days;n++){
+    const k=dkey(new Date(Y,M,n)),e=S[k];
+    if(!e){h+=`<div class="cell off"><div class="n">${n}</div></div>`;continue;}
+    const w=weekOf(k)||{};const race=e.ses.some(s=>s.s==='race');
+    const lab=race?'<small class="r">race</small>':(dow(k)===1&&w.test?'<small>test wk</small>':dow(k)===1&&w.rec?'<small>easy wk</small>':isOffice(k)?'<small>office</small>':dow(k)===3?'<small>flex</small>':'');
+    const b=bedFor(k);
+    h+=`<button class="cell${k===sel?' sel':''}${w.rec?' recw':''}${race?' racew':''}" data-k="${k}" ${k===tkey?'aria-current="date"':''} aria-label="${k}: ${esc(e.ses.map(s=>s.short).join(', '))}"><div class="n">${n}${lab}</div>`+
+      e.ses.map(s=>`<div class="pill" style="--c:var(${KC[s.s]})">${esc(s.short)}</div>`).join('')+
+      `<div class="dots">${e.ses.map(s=>`<i style="--c:var(${KC[s.s]})"></i>`).join('')}</div>${b?`<div class="bed">bed ${fmtS(b.bed)}</div>`:''}</button>`;
+  }
+  cal.innerHTML=h+'</div>';
+  cal.querySelectorAll('button.cell').forEach(b=>b.onclick=()=>{sel=b.dataset.k;renderCal();renderDay();if(innerWidth<900)document.getElementById('day').scrollIntoView({behavior:'smooth',block:'start'});});
+  document.querySelectorAll('#months button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.m===month));
 }
-function secs(list,intro,open){$('#main').innerHTML='<div class="plan">'+intro+list.map((s,i)=>`<details${i<open?' open':''}><summary><h2 style="display:inline">${esc(s.title)}</h2></summary>${s.html.replace(/<table>/g,'<div class="tw"><table>').replace(/<\/table>/g,'</table></div>')}</details>`).join('')+'</div>'}
-function renderFuel(){secs(P.fuel,'<div class="card">Everything is <b>strictly gluten-free</b>. Targets are per kg of body weight; the exact daily numbers and the 7-day menus are in your Fuel Plan PDF.</div>',2)}
-function renderRecovery(){secs(P.recovery,'<div class="card">Check every morning before training. The <b>worst</b> signal decides the day: 🟢 train as planned · 🟡 cap at Z2 and move intervals · 🔴 easy 30-45\' Z1 or rest.</div>',2)}
-function renderPlan(){$('#main').innerHTML='<div class="plan">'+P.plan.map((s,i)=>`<details${i<1?' open':''}><summary><h2 style="display:inline">${esc(s.title)}</h2></summary>${s.html.replace(/<table>/g,'<div class="tw"><table>').replace(/<\/table>/g,'</table></div>')}</details>`).join('')+'</div>'}
-function showDay(d){const w=weekOf(d),all=byDay[d]||[];
-  let h=`<button class="btn x" onclick="dlg.close()">✕</button><h3>${fmt(d,{weekday:'long',month:'long',day:'numeric',year:'numeric'})}</h3><div>${weekTags(w)} ${special(d)?`<span class="tag rc">${special(d)}</span>`:''}</div>${w?`<p class="cd">Week ${w.n}: ${esc(w.focus)}</p>`:''}`;
-  all.filter(e=>['phase','recovery','test'].includes(e.k)).forEach(e=>h+=`<p><b>${esc(e.s)}</b>${e.desc?'<br><span class=cd>'+esc(e.desc)+'</span>':''}</p>`);
-  SESS(d).forEach(e=>h+=detail(e));if(!all.length)h+='<p class="cd">No sessions planned.</p>';
-  openDlg(h)}
-function detail(e){return`<div class="sess k-${e.k}" style="cursor:default;display:block"><b>${esc(e.s)}</b><div class="cd">${e.t?'🕒 '+tm12(e.t)+(e.m?' · ':''):''}${e.m?'⏱ '+hm(e.m):''}${e.loc?' · 📍 '+esc(e.loc):''}</div>${e.desc?`<pre style="margin-top:6px">${esc(e.desc)}</pre>`:''}</div>`}
-const dlg=$('#dlg');function openDlg(h){$('#dlgc').innerHTML=h;dlg.showModal()}
-dlg.onclick=e=>{if(e.target===dlg)dlg.close()};
-document.addEventListener('click',e=>{const s=e.target.closest('.sess[data-i]');if(s&&!dlg.open){const ev=P.events[+s.dataset.i];openDlg(`<button class="btn x" onclick="dlg.close()">✕</button><h3>${fmt(ev.d,{weekday:'long',month:'long',day:'numeric'})}</h3>`+detail(ev))}});
-function show(v){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));({week:renderWeek,month:renderMonth,plan:renderPlan,fuel:renderFuel,recovery:renderRecovery})[v]();location.hash=v}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.v));
-wkStart=mondayOf(TODAY);const td=D(TODAY);mo=[td.getUTCFullYear(),td.getUTCMonth()];
-show(['week','month','plan','fuel','recovery'].includes(location.hash.slice(1))?location.hash.slice(1):'week');
-</script></body></html>
+/* ---------- day sheet ---------- */
+function renderDay(){
+  const e=S[sel]||{ses:[]},d=new Date(sel+'T12:00'),w=weekOf(sel)||{};
+  const title=d.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
+  let h=`<div class="dhead"><div><span class="tag">Week ${w.n} · ${esc(w.phase)}</span>${w.rec?'<span class="tag">Recovery week</span>':''}${w.test?'<span class="tag hot">Test week</span>':''}${sel===tkey?'<span class="tag hot">Today</span>':''}<h2 style="margin-top:8px">${title}${d.getFullYear()===2027?' ’27':''}</h2></div><div class="navbtn"><button id="prev" aria-label="Previous day">‹</button><button class="today" id="tod">Today</button><button id="next" aria-label="Next day">›</button></div></div>`;
+  h+=`<p class="meta" style="margin-top:8px">${esc(w.focus||'')}</p>`;
+  (MARK[sel]||[]).forEach(m=>{h+=`<p class="why">${esc(m.s)}${m.desc&&m.desc!==m.s&&!m.desc.includes('\n')?' — '+esc(m.desc):''}</p>`;});
+  const notes=[...new Set(e.ses.map(s=>s.f['Week note']).filter(Boolean))];
+  if(dow(sel)===1||sel===START){notes.forEach(n=>h+=`<p class="why"><strong>This week:</strong> ${esc(n)}</p>`);}
+  const timed=e.ses.filter(s=>s.tm!=null);
+  if(timed.length){
+    const rows=[];const ft=Math.min(...timed.map(s=>s.tm));
+    if(ft<11*60)rows.push([ft-45,'Wake up','Light breakfast or a carb snack and water']);
+    timed.forEach(s=>rows.push([s.tm,`${NAMES[s.s]}: ${s.short}`,`${s.d?durS(s.d)+' · ':''}${s.where||''}`]));
+    if(isOffice(sel)&&ft<8*60)rows.push([8*60+45,'At your desk','Office day',true]);
+    rows.sort((a,b)=>a[0]-b[0]);
+    h+=`<h3>${isOffice(sel)?'Office day':dow(sel)===3?'Wednesday · office or home':[0,6].includes(dow(sel))?'Weekend':'Home day'} · ${e.ses.reduce((a,s)=>a+(s.d||0),0)} min of training</h3><div class="tl">`+rows.map(r=>`<div class="t${r[3]?' desk':''}">${fmt(r[0])}</div><div>${esc(r[1])}${r[2]?`<small>${esc(r[2])}</small>`:''}</div>`).join('')+'</div>';
+  }
+  if(!e.ses.length)h+='<p class="alt">No sessions scheduled.</p>';
+  e.ses.forEach(s=>{
+    const rows=[['Time',s.tm!=null?fmt(s.tm):'Any time'],['Duration',s.f.Duration&&s.f.Duration!=='-'?s.f.Duration:(s.d?durS(s.d):'–')]];
+    if(s.f.Distance)rows.push(['Distance',s.f.Distance]);
+    rows.push(['Gym / where',s.where||'–'],['Zone',s.f['Intensity/zones']||'–'],['Fueling',fuelFor(s)]);
+    h+=`<div class="sess" style="--c:var(${KC[s.s]})"><h4><i></i>${esc(NAMES[s.s])}</h4><p class="meta">${esc(s.t)}</p><table class="sets">`+rows.map(r=>`<tr><td>${r[0]}</td><td>${esc(r[1])}</td></tr>`).join('')+`</table>${s.f.Purpose?`<p class="why"><strong>Why:</strong> ${esc(s.f.Purpose)}</p>`:''}</div>`;
+  });
+  const b=bedFor(sel);
+  if(b){const nk=addDays(sel,1),ne=S[nk],nd=new Date(nk+'T12:00');
+    const what=ne.ses.map(x=>(x.tm!=null?fmt(x.tm)+' ':'')+x.short).join(' + ');
+    h+=`<div class="sess" style="--c:var(--accent)"><h4><i></i>Tonight</h4><div class="tl" style="margin-top:8px"><div class="t">${fmt(b.bed-30)}</div><div>Screens off, wind down<small>Lay out tomorrow's kit and pack your gym bag</small></div><div class="t desk">${fmt(b.bed)}</div><div>Lights out<small>8 hours of sleep before a ${fmt(b.wake)} wake-up</small></div></div><p class="alt">Tomorrow (${nd.toLocaleDateString('en-US',{weekday:'short'})}): ${esc(what)}.</p></div>`;}
+  const el=document.getElementById('day');el.innerHTML=h;
+  const keys=Object.keys(S).sort(),i=keys.indexOf(sel);
+  const go=k=>{if(!k)return;sel=k;month=MI(sel);renderCal();renderDay();};
+  el.querySelector('#prev').onclick=()=>go(keys[i-1]);el.querySelector('#next').onclick=()=>go(keys[i+1]);
+  el.querySelector('#tod').onclick=()=>go(S[tkey]?tkey:keys[0]);
+  el.querySelector('#prev').disabled=i<=0;el.querySelector('#next').disabled=i===keys.length-1;
+}
+/* ---------- weeks overview ---------- */
+document.getElementById('weeks').innerHTML=WEEKS.map(w=>{const e=addDays(w.start,6);const f=d=>new Date(d+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  return `<button class="wk${tkey>=w.start&&tkey<=e?' cur':''}" data-k="${w.start}"><b>Week ${w.n}</b> <span class="tag">${esc(w.phase)}</span>${w.rec?'<span class="tag">Recovery</span>':''}${w.test?'<span class="tag hot">Test</span>':''}<small>${f(w.start)} – ${f(e)} · ${(w.mins/60).toFixed(1)} h</small><small>${esc(w.focus)}</small></button>`}).join('');
+document.querySelectorAll('.wk').forEach(b=>b.onclick=()=>{sel=b.dataset.k;month=MI(sel);show('cal');renderCal();renderDay();});
+/* ---------- docs ---------- */
+function doc(id,secs){document.getElementById('v-'+id).innerHTML=`<nav aria-label="${id} sections">${secs.map((s,i)=>`<a href="#${id}-${i}">${esc(s.title)}</a>`).join('')}</nav><div>`+secs.map((s,i)=>`<details id="${id}-${i}"${i===0?' open':''}><summary>${esc(s.title)}</summary><div class="body">${s.html}</div></details>`).join('')+'</div>';
+  document.querySelectorAll(`#v-${id} nav a`).forEach(a=>a.onclick=()=>{document.querySelector(a.getAttribute('href')).open=true;});}
+doc('plan',P.plan);doc('fuel',P.fuel);doc('recovery',P.recovery);
+/* ---------- view tabs ---------- */
+function show(v){document.querySelectorAll('.views button').forEach(b=>b.setAttribute('aria-selected',b.dataset.v===v));
+  ['cal','weeks','plan','fuel','recovery'].forEach(x=>document.getElementById('v-'+x).hidden=x!==v);
+  if(history.replaceState)history.replaceState(null,'',v==='cal'?location.pathname+location.search:'#'+v);}
+document.querySelectorAll('.views button').forEach(b=>b.onclick=()=>show(b.dataset.v));
+const hv=location.hash.slice(1);
+renderCal();renderDay();
+if(['weeks','plan','fuel','recovery'].includes(hv))show(hv);
+</script>
+</body></html>
