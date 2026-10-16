@@ -169,7 +169,7 @@ P.events.forEach(e=>{
   if(!f.Session){(MARK[e.d]=MARK[e.d]||[]).push(e);return;}
   const title=f.Session, s=e.k, tm=e.t?+e.t.slice(0,2)*60+ +e.t.slice(3):null;
   const short=e.s.replace(/^[^–]*–\s*/,'').replace(/\s*\(\d+:\d\d\)\s*$/,'').replace(/…$/,'').replace(/[;:]\s.*$/,'').replace(/^[\p{Extended_Pictographic}\uFE0F\s]+/u,'').trim().slice(0,48);
-  (S[e.d]=S[e.d]||{ses:[]}).ses.push({s,k:e.k,t:title,short,tm,d:e.m,where:e.loc,f});
+  (S[e.d]=S[e.d]||{ses:[]}).ses.push({s,k:e.k,t:title,short,tm,d:e.m,where:e.loc,f,w:e.w});
 });
 Object.values(S).forEach(x=>x.ses.sort((a,b)=>(a.tm??1e4)-(b.tm??1e4)));
 const WEEKS=P.weeks;
@@ -246,7 +246,7 @@ function renderDay(){
   const e=S[sel]||{ses:[]},d=new Date(sel+'T12:00'),w=weekOf(sel)||{};
   const title=d.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
   let h=`<div class="dhead"><div><span class="tag">Week ${w.n} · ${esc(w.phase)}</span>${w.rec?'<span class="tag">Recovery week</span>':''}${w.test?'<span class="tag hot">Test week</span>':''}${sel===tkey?'<span class="tag hot">Today</span>':''}<h2 style="margin-top:8px">${title}${d.getFullYear()===2027?' ’27':''}</h2></div><div class="navbtn"><button id="prev" aria-label="Previous day">‹</button><button class="today" id="tod">Today</button><button id="next" aria-label="Next day">›</button></div></div>`;
-  h+=`<p class="meta" style="margin-top:8px">${esc(w.focus||'')}</p>`;
+  h+=`<p class="meta" style="margin-top:8px">${esc(w.focus||'')}${w.obj?' · '+esc(w.obj):''}${w.mi!=null?` · Week: ${durS(w.mins)} h, run ${w.mi} mi${w.pr!=null?` (${w.pr>=0?'+':''}${w.pr}% vs last loading week)`:''}, ${w.low}% easy`:''}</p>`;
   (MARK[sel]||[]).forEach(m=>{h+=`<p class="why">${esc(m.s)}${m.desc&&m.desc!==m.s&&!m.desc.includes('\n')?' — '+esc(m.desc):''}</p>`;});
   const notes=[...new Set(e.ses.map(s=>s.f['Week note']).filter(Boolean))];
   if(dow(sel)===1||sel===START){notes.forEach(n=>h+=`<p class="why"><strong>This week:</strong> ${esc(n)}</p>`);}
@@ -262,9 +262,24 @@ function renderDay(){
   if(!e.ses.length)h+='<p class="alt">No sessions scheduled.</p>';
   e.ses.forEach(s=>{
     const rows=[['Time',s.tm!=null?fmt(s.tm):'Any time'],['Duration',s.f.Duration&&s.f.Duration!=='-'?s.f.Duration:(s.d?durS(s.d):'–')]];
-    if(s.f.Distance)rows.push(['Distance',s.f.Distance]);
-    rows.push(['Gym / where',s.where||'–'],['Zone',s.f['Intensity/zones']||'–'],['Fueling',fuelFor(s)]);
-    h+=`<div class="sess" style="--c:var(${KC[s.s]})"><h4><i></i>${esc(NAMES[s.s])}</h4><p class="meta">${esc(s.t)}</p><table class="sets">`+rows.map(r=>`<tr><td>${r[0]}</td><td>${esc(r[1])}</td></tr>`).join('')+`</table>${s.f.Purpose?`<p class="why"><strong>Why:</strong> ${esc(s.f.Purpose)}</p>`:''}</div>`;
+    const W=s.w,LB=W?((P.lib||{})[W.c]||{}):null,ok=v=>v&&v!=='-';
+    if(W){
+      if(ok(W.tot))rows[1]=['Total',W.tot];
+      rows.push(['Gym / where',s.where||'–'],['Workout',`${W.c} · ${W.n}`]);
+      if(ok(W.obj||LB.obj))rows.push(['Objective',W.obj||LB.obj]);
+      if(ok(W.wu||LB.wu))rows.push(['Warm-up',W.wu||LB.wu]);
+      (W.main||[]).forEach((m,i)=>rows.push([i?'':'Main set',m]));
+      if(ok(W.cd||LB.cd))rows.push(['Cool-down',W.cd||LB.cd]);
+      if(ok(W.tg))rows.push(['Targets',W.tg]);
+      (W.fu||fuelFor(s)).split(' · ').forEach((x,i)=>rows.push([i?'':'Fueling',x]));
+      if(ok(W.cues||LB.cues))rows.push(['Cues',W.cues||LB.cues]);
+      if(ok(W.amber||LB.amber))rows.push(['If amber',(W.amber||LB.amber).replace(/^Amber:\s*/,'')]);
+    }else{
+      if(s.f.Distance)rows.push(['Distance',s.f.Distance]);
+      rows.push(['Gym / where',s.where||'–'],['Zone',s.f['Intensity/zones']||'–'],['Fueling',fuelFor(s)]);
+    }
+    const why=W?[W.why,LB.why].filter(ok).join(' · '):s.f.Purpose;
+    h+=`<div class="sess" style="--c:var(${KC[s.s]})"><h4><i></i>${esc(NAMES[s.s])}</h4><p class="meta">${esc(s.t)}</p><table class="sets">`+rows.map(r=>`<tr><td>${r[0]}</td><td>${esc(r[1])}</td></tr>`).join('')+`</table>${why?`<p class="why"><strong>Why:</strong> ${esc(why)}</p>`:''}</div>`;
   });
   const b=bedFor(sel);
   if(b){const nk=addDays(sel,1),ne=S[nk],nd=new Date(nk+'T12:00');
