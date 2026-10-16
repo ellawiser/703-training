@@ -152,7 +152,7 @@ footer{color:var(--muted);font-size:.82rem;border-top:1px solid var(--line);padd
   <section id="v-recovery" class="doc" hidden></section>
 
   <footer>
-    Session times are the planned start. "Bed" in the calendar and the Tonight card give 8 hours of sleep plus 15 minutes to fall asleep before the next morning's first session, with about 45 minutes to wake, eat and get to the gym. Gyms are Life Time clubs (Wellhub Gold) unless noted. Bike zones are set from FTP and update after each test week; run zones from LTHR. Sharp pain in one spot on your shin means stop and swap the run for a swim or spin. Fueling is gluten-free throughout.
+    Session times are the planned start. "Bed" in the calendar and the Tonight card give 8 hours of sleep plus 15 minutes to fall asleep before the next morning's first session, with wake-up set by the commute: about 80 minutes before an LT Sky session, 55 before LT 23rd St, and 45 before sessions from home or at LT NoHo. Gyms are Life Time clubs (Wellhub Gold) unless noted. Bike zones are set from FTP and update after each test week; run zones from LTHR. Sharp pain in one spot on your shin means stop and swap the run for a swim or spin. Fueling is gluten-free throughout.
   </footer>
 </div>
 <script src="data.js"></script>
@@ -191,7 +191,14 @@ const dkey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${St
 const addDays=(k,n)=>{const d=new Date(k+'T12:00');d.setDate(d.getDate()+n);return dkey(d);};
 const firstStart=k=>{const e=S[k];if(!e)return null;const t=e.ses.filter(s=>s.tm!=null).map(s=>s.tm);return t.length?Math.min(...t):null;};
 const SLEEP=8*60+15;
-function wakeFor(k){const t=firstStart(k);if(t==null||t>=11*60)return 7*60;return t-45;}
+/* commute legs (verified Oct 16 2026: OSRM walking + MTA weekday schedules; conservative for 6-8 am headways) */
+function LEG(w){w=w||'';
+  if(/^LT Sky/.test(w))return{wake:80,lead:60,post:40,go:'6 at Astor Pl → Grand Central, 7 → 34 St-Hudson Yards, walk 10 min up 11th Ave (~45-50 min door to door)',back:'Shower, then walk 0.6 mi east on W 42nd St to 8th Ave (~13-15 min)'};
+  if(/23rd/.test(w))return{wake:55,lead:35,post:50,go:'Walk 1.2 mi, or F from 2 Av / 6 from Astor Pl (~25 min); Citi Bike ~15 min',back:'Shower, then F/M at the door (23 St) → 42 St-Bryant Pk + 9-min walk west (~20-22 min)'};
+  if(/NoHo/.test(w))return{wake:45,lead:8,post:75,go:'Walk 3-4 min to 62 Cooper Sq',back:'Walk home, shower, then 6 → Grand Central + 7 → Times Sq, or L + A/C/E (~35 min)'};
+  return{wake:45,lead:0,post:75,go:'',back:'Shower at home, then 6 → Grand Central + 7 → Times Sq, or L + A/C/E (~35 min)'};}
+const morn=k=>(S[k]?S[k].ses:[]).filter(s=>s.tm!=null&&s.tm<11*60&&s.s!=='rest');
+function wakeFor(k){const m=morn(k);if(!m.length)return 7*60;return m[0].tm-LEG(m[0].where).wake;}
 function bedFor(k){if(!S[addDays(k,1)])return null;const w=wakeFor(addDays(k,1));return{bed:w-SLEEP+1440,wake:w};}
 const dow=k=>new Date(k+'T12:00').getDay();
 const isOffice=k=>[1,2,4].includes(dow(k))&&!(weekOf(k)||{}).rec;
@@ -253,9 +260,12 @@ function renderDay(){
   const timed=e.ses.filter(s=>s.tm!=null);
   if(timed.length){
     const rows=[];const ft=Math.min(...timed.map(s=>s.tm));
-    if(ft<11*60)rows.push([ft-45,'Wake up','Light breakfast or a carb snack and water']);
+    const M=morn(sel);
+    if(M.length){const L0=LEG(M[0].where);rows.push([M[0].tm-L0.wake,'Wake up','Light breakfast or a carb snack and water']);
+      if(L0.lead)rows.push([M[0].tm-L0.lead,'Leave home',L0.go]);}
     timed.forEach(s=>rows.push([s.tm,`${NAMES[s.s]}: ${s.short}`,`${s.d?durS(s.d)+' · ':''}${s.where||''}`]));
-    if(isOffice(sel)&&ft<8*60)rows.push([8*60+45,'At your desk','Office day',true]);
+    if(isOffice(sel)&&M.length&&M[0].tm<8*60){const ls=M.reduce((a,s)=>s.tm+(s.d||0)>a.tm+(a.d||0)?s:a),end=ls.tm+(ls.d||0),L1=LEG(ls.where);
+      rows.push([end,'Shower + commute',L1.back]);rows.push([end+L1.post,'At your desk','Office day',true]);}
     rows.sort((a,b)=>a[0]-b[0]);
     h+=`<h3>${isOffice(sel)?'Office day':dow(sel)===3?'Wednesday · office or home':[0,6].includes(dow(sel))?'Weekend':'Home day'} · ${e.ses.reduce((a,s)=>a+(s.d||0),0)} min of training</h3><div class="tl">`+rows.map(r=>`<div class="t${r[3]?' desk':''}">${fmt(r[0])}</div><div>${esc(r[1])}${r[2]?`<small>${esc(r[2])}</small>`:''}</div>`).join('')+'</div>';
   }
