@@ -152,7 +152,7 @@ footer{color:var(--muted);font-size:.82rem;border-top:1px solid var(--line);padd
   <section id="v-recovery" class="doc" hidden></section>
 
   <footer>
-    Session times are the planned start. "Bed" in the calendar and the Tonight card give 8 hours of sleep plus 15 minutes to fall asleep before the next morning's first session, with wake-up set by the commute: about 80 minutes before an LT Sky session, 55 before LT 23rd St, and 45 before sessions from home or at LT NoHo. Gyms are Life Time clubs (Wellhub Gold) unless noted. Bike zones are set from FTP and update after each test week; run zones from LTHR. Sharp pain in one spot on your shin means stop and swap the run for a swim or spin. Fueling is gluten-free throughout.
+    Session times are the planned start. "Bed" in the calendar and the Tonight card give 8 hours of sleep plus 15 minutes to fall asleep before the next morning's first session, with wake-up set by the commute: about 80 minutes before an LT Sky session, 55 before LT 23rd St, and 45 before sessions from home or at LT NoHo. Gyms are Life Time clubs (Wellhub Gold) unless noted. Bike zones are set from FTP and update after each test week; run zones from LTHR. Sharp pain in one spot on your shin means stop and swap the run for a swim or spin. Fueling is gluten-free throughout. On the Denver trips, times are Mountain Time (MT) and assume remote work on Eastern hours (9-5 ET = 7 AM-3 PM MT).
   </footer>
 </div>
 <script src="data.js"></script>
@@ -169,7 +169,7 @@ P.events.forEach(e=>{
   if(!f.Session){(MARK[e.d]=MARK[e.d]||[]).push(e);return;}
   const title=f.Session, s=e.k, tm=e.t?+e.t.slice(0,2)*60+ +e.t.slice(3):null;
   const short=e.s.replace(/^[^–]*–\s*/,'').replace(/\s*\(\d+:\d\d\)\s*$/,'').replace(/…$/,'').replace(/[;:]\s.*$/,'').replace(/^[\p{Extended_Pictographic}\uFE0F\s]+/u,'').trim().slice(0,48);
-  (S[e.d]=S[e.d]||{ses:[]}).ses.push({s,k:e.k,t:title,short,tm,d:e.m,where:e.loc,f,w:e.w});
+  (S[e.d]=S[e.d]||{ses:[]}).ses.push({s,k:e.k,t:title,short,tm,d:e.m,where:e.loc,f,w:e.w,z:e.z});
 });
 Object.values(S).forEach(x=>x.ses.sort((a,b)=>(a.tm??1e4)-(b.tm??1e4)));
 const WEEKS=P.weeks;
@@ -191,17 +191,24 @@ const dkey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${St
 const addDays=(k,n)=>{const d=new Date(k+'T12:00');d.setDate(d.getDate()+n);return dkey(d);};
 const firstStart=k=>{const e=S[k];if(!e)return null;const t=e.ses.filter(s=>s.tm!=null).map(s=>s.tm);return t.length?Math.min(...t):null;};
 const SLEEP=8*60+15;
+const TRIPS=P.trips||[],OFF=P.off||[];
+const inDen=k=>TRIPS.some(t=>k>=t.first&&k<=t.last);
+const isOff=k=>OFF.includes(k);
+const Z=k=>inDen(k)?' MT':'';
+const travelOut=k=>TRIPS.some(t=>t.out===k),travelBack=k=>TRIPS.some(t=>t.last===k);
 /* commute legs (verified Oct 16 2026: OSRM walking + MTA weekday schedules; conservative for 6-8 am headways) */
 function LEG(w){w=w||'';
+  if(/Cherry Creek|Denver|Washington Park|High Line|foothills|MTB|Turkey Trot/.test(w))return{wake:45,lead:20,post:0,go:'Drive or ride to the venue (~10-25 min, depends on where you stay)',back:''};
   if(/^LT Sky/.test(w))return{wake:80,lead:60,post:40,go:'6 at Astor Pl → Grand Central, 7 → 34 St-Hudson Yards, walk 10 min up 11th Ave (~45-50 min door to door)',back:'Shower, then walk 0.6 mi east on W 42nd St to 8th Ave (~13-15 min)'};
   if(/23rd/.test(w))return{wake:55,lead:35,post:50,go:'Walk 1.2 mi, or F from 2 Av / 6 from Astor Pl (~25 min); Citi Bike ~15 min',back:'Shower, then F/M at the door (23 St) → 42 St-Bryant Pk + 9-min walk west (~20-22 min)'};
   if(/NoHo/.test(w))return{wake:45,lead:8,post:75,go:'Walk 3-4 min to 62 Cooper Sq',back:'Walk home, shower, then 6 → Grand Central + 7 → Times Sq, or L + A/C/E (~35 min)'};
   return{wake:45,lead:0,post:75,go:'',back:'Shower at home, then 6 → Grand Central + 7 → Times Sq, or L + A/C/E (~35 min)'};}
 const morn=k=>(S[k]?S[k].ses:[]).filter(s=>s.tm!=null&&s.tm<11*60&&s.s!=='rest');
 function wakeFor(k){const m=morn(k);if(!m.length)return 7*60;return m[0].tm-LEG(m[0].where).wake;}
-function bedFor(k){if(!S[addDays(k,1)])return null;const w=wakeFor(addDays(k,1));return{bed:w-SLEEP+1440,wake:w};}
+function bedFor(k){if(!S[addDays(k,1)]||travelOut(k)||travelBack(k))return null;const w=wakeFor(addDays(k,1));return{bed:w-SLEEP+1440,wake:w};}
 const dow=k=>new Date(k+'T12:00').getDay();
-const isOffice=k=>[1,2,4].includes(dow(k))&&!(weekOf(k)||{}).rec;
+const isOffice=k=>[1,2,4].includes(dow(k))&&!(weekOf(k)||{}).rec&&!inDen(k)&&!isOff(k);
+const denWork=k=>inDen(k)&&dow(k)>=1&&dow(k)<=5&&!isOff(k);
 /* today in America/New_York */
 const tkey=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 const qs=new URLSearchParams(location.search).get('d');
@@ -238,7 +245,7 @@ function renderCal(){
     const k=dkey(new Date(Y,M,n)),e=S[k];
     if(!e){h+=`<div class="cell off"><div class="n">${n}</div></div>`;continue;}
     const w=weekOf(k)||{};const race=e.ses.some(s=>s.s==='race');
-    const lab=race?'<small class="r">race</small>':(dow(k)===1&&w.test?'<small>test wk</small>':dow(k)===1&&w.rec?'<small>easy wk</small>':isOffice(k)?'<small>office</small>':dow(k)===3?'<small>flex</small>':'');
+    const lab=race?'<small class="r">race</small>':inDen(k)?'<small>denver</small>':isOff(k)?'<small>day off</small>':(dow(k)===1&&w.test?'<small>test wk</small>':dow(k)===1&&w.rec?'<small>easy wk</small>':isOffice(k)?'<small>office</small>':dow(k)===3?'<small>flex</small>':'');
     const b=bedFor(k);
     h+=`<button class="cell${k===sel?' sel':''}${w.rec?' recw':''}${race?' racew':''}" data-k="${k}" ${k===tkey?'aria-current="date"':''} aria-label="${k}: ${esc(e.ses.map(s=>s.short).join(', '))}"><div class="n">${n}${lab}</div>`+
       e.ses.map(s=>`<div class="pill" style="--c:var(${KC[s.s]})">${esc(s.short)}</div>`).join('')+
@@ -255,6 +262,9 @@ function renderDay(){
   let h=`<div class="dhead"><div><span class="tag">Week ${w.n} · ${esc(w.phase)}</span>${w.rec?'<span class="tag">Recovery week</span>':''}${w.test?'<span class="tag hot">Test week</span>':''}${sel===tkey?'<span class="tag hot">Today</span>':''}<h2 style="margin-top:8px">${title}${d.getFullYear()===2027?' ’27':''}</h2></div><div class="navbtn"><button id="prev" aria-label="Previous day">‹</button><button class="today" id="tod">Today</button><button id="next" aria-label="Next day">›</button></div></div>`;
   h+=`<p class="meta" style="margin-top:8px">${esc(w.focus||'')}${w.obj?' · '+esc(w.obj):''}${w.mi!=null?` · Week: ${durS(w.mins)} h, run ${w.mi} mi${w.pr!=null?` (${w.pr>=0?'+':''}${w.pr}% vs last loading week)`:''}, ${w.low}% easy`:''}</p>`;
   (MARK[sel]||[]).forEach(m=>{h+=`<p class="why">${esc(m.s)}${m.desc&&m.desc!==m.s&&!m.desc.includes('\n')?' — '+esc(m.desc):''}</p>`;});
+  if(travelOut(sel))h+=`<p class="why"><strong>Travel day:</strong> evening flight to Denver. Keep the morning session short and done before work.</p>`;
+  if(travelBack(sel))h+=`<p class="why"><strong>Travel day:</strong> evening flight home. Easy or rest today.</p>`;
+  if(inDen(sel))h+=`<p class="why"><strong>Denver (5,280 ft):</strong> times are Mountain Time. Remote work on Eastern hours (9-5 ET = 7 AM-3 PM MT), so sessions finish by ~6:45 AM or start after 3 PM. Run by HR/RPE, expect ~5-8% fewer watts for the same effort, drink an extra 0.5-1 L a day.</p>`;
   const notes=[...new Set(e.ses.map(s=>s.f['Week note']).filter(Boolean))];
   if(dow(sel)===1||sel===START){notes.forEach(n=>h+=`<p class="why"><strong>This week:</strong> ${esc(n)}</p>`);}
   const timed=e.ses.filter(s=>s.tm!=null);
@@ -266,12 +276,13 @@ function renderDay(){
     timed.forEach(s=>rows.push([s.tm,`${NAMES[s.s]}: ${s.short}`,`${s.d?durS(s.d)+' · ':''}${s.where||''}`]));
     if(isOffice(sel)&&M.length&&M[0].tm<8*60){const ls=M.reduce((a,s)=>s.tm+(s.d||0)>a.tm+(a.d||0)?s:a),end=ls.tm+(ls.d||0),L1=LEG(ls.where);
       rows.push([end,'Shower + commute',L1.back]);rows.push([end+L1.post,'At your desk','Office day',true]);}
+    if(denWork(sel))rows.push([7*60,'Work (remote, ET hours)','7:00 AM-3:00 PM MT = 9 AM-5 PM ET',true]);
     rows.sort((a,b)=>a[0]-b[0]);
-    h+=`<h3>${isOffice(sel)?'Office day':dow(sel)===3?'Wednesday · office or home':[0,6].includes(dow(sel))?'Weekend':'Home day'} · ${e.ses.reduce((a,s)=>a+(s.d||0),0)} min of training</h3><div class="tl">`+rows.map(r=>`<div class="t${r[3]?' desk':''}">${fmt(r[0])}</div><div>${esc(r[1])}${r[2]?`<small>${esc(r[2])}</small>`:''}</div>`).join('')+'</div>';
+    h+=`<h3>${inDen(sel)?(denWork(sel)?'Denver · remote workday':[0,6].includes(dow(sel))?'Denver · weekend':'Denver · day off'):isOff(sel)?'Day off':isOffice(sel)?'Office day':dow(sel)===3?'Wednesday · office or home':[0,6].includes(dow(sel))?'Weekend':'Home day'} · ${e.ses.reduce((a,s)=>a+(s.d||0),0)} min of training</h3><div class="tl">`+rows.map(r=>`<div class="t${r[3]?' desk':''}">${fmt(r[0])}${Z(sel)}</div><div>${esc(r[1])}${r[2]?`<small>${esc(r[2])}</small>`:''}</div>`).join('')+'</div>';
   }
   if(!e.ses.length)h+='<p class="alt">No sessions scheduled.</p>';
   e.ses.forEach(s=>{
-    const rows=[['Time',s.tm!=null?fmt(s.tm):'Any time'],['Duration',s.f.Duration&&s.f.Duration!=='-'?s.f.Duration:(s.d?durS(s.d):'–')]];
+    const rows=[['Time',s.tm!=null?fmt(s.tm)+(s.z?' MT':''):'Any time'],['Duration',s.f.Duration&&s.f.Duration!=='-'?s.f.Duration:(s.d?durS(s.d):'–')]];
     const W=s.w,LB=W?((P.lib||{})[W.c]||{}):null,ok=v=>v&&v!=='-';
     if(W){
       if(ok(W.tot))rows[1]=['Total',W.tot];
